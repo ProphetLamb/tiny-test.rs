@@ -1,6 +1,21 @@
 # `tiny-test`
 `tiny-test` is collection of functions simplifying test assertions in rust.
 
+## Motivation
+
+When writing unit-tests, especially for parsers and similar problems, programmers tend to write a single-test-multiple-data structure.
+
+This generally is done, by calling the test with a variety of inputs and expecting some output. This works completely fine when all tests succeed, but many trivial implementation `panic!` on the first failure, the result is, that the remaining test-cases are not executed at all. Often they thus don't report the specific test data, such as input or the number of the test case that yielded the error.
+
+This crate aims to solve all of these problems.
+
+## Features
+
+- All test-cases are run, regardless of a failed assertion.
+- When debugging `panic!`s on failed assertion, right after the test-case.
+- Failed test-cases are reported easily understandable manner.
+- Failed test-cases include the test-case number, input, expectation and result, that caused the failure. 
+
 ## Usage
 
 ### `collect_fails!`
@@ -55,7 +70,9 @@ report_fails(vec![
 // test case 1: assertion failed for input `"input string"`
 //         expected `"expected string"`
 //         result `""`
+//
 // test case 2: assertion failed for input `"hello world!"`
 //         expected `"hello papa!"`
+//         result `"hello mom!"`
 //
 ```
